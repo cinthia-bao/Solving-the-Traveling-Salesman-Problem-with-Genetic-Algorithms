@@ -54,5 +54,28 @@ def displacement(poblacion, porcentaje_base):
     return poblacion
 
 
+def scramble(poblacion, porcentaje_base):
+    porcentaje = int(porcentaje_base * len(poblacion)/100)
+    start_index = int((1-porcentaje_base/100)*len(poblacion))
+    end_index = len(poblacion)-1
+    indices_seleccionados = set()
+    a = len(poblacion[0]) - 3
+    corte1 = random.sample(range(1, a), 1)
+    b = len(poblacion[0]) - 1
+    corte2 = random.sample(range(corte1[0] + 2, b), 1)
+    for i in range(porcentaje):
+        while True:
+            indice = random.randint(start_index, end_index)
+            if indice not in indices_seleccionados:
+                indices_seleccionados.add(indice)
+                break
+        ind = poblacion[indice]
+        p1 = ind[:corte1[0]]
+        p2 = ind[corte1[0]:corte2[0]]
+        p3 = ind[corte2[0]:len(ind)]
+        random.shuffle(p2)
+        nuevo_ind = p1+p2+p3 
+        poblacion[indice]=  nuevo_ind
+    return poblacion
 
 
