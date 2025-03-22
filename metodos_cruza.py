@@ -42,38 +42,50 @@ def CPMX(padres1,padres2):
     return hijo1, hijo2
     
 # Cruza por ciclo
-def cruza_ciclo(padre1,padre2):
+def cruza_ciclo(padre1, padre2):
     hijo1 = []
     hijo2 = []
     for i in range(len(padre1)):
         p1 = padre1[i]
         p2 = padre2[i]
-        v1=p1[0]
-        i=0 
-        vnew=19
+        print('Padre 1', p1)
+        print('Padre 2', p2)
+        # Asegurarse de que los inicios sean diferentes
+        if p1[0] == p2[0]:
+            encontrado = False
+            for j in range(i + 1, len(padre2)):
+                if padre2[j][0] != p1[0]:
+                    p2 = padre2[j]
+                    encontrado = True
+                    break
+            if not encontrado:
+                for j in range(i - 1, -1, -1):
+                    if padre2[j][0] != p1[0]:
+                        p2 = padre2[j]
+                        break
+        v1 = p1[0]
+        i_local = 0
+        vnew = None
         ciclo = [v1]
-        while v1 != vnew:
-            vnew=p2[i]
+        while vnew != v1:
+            vnew = p2[i_local]
             ciclo.append(vnew)
-            indice = p1.index(vnew)
-            vnew =p2[indice]                                         
-            i = indice
-
-        def mantener_ciclos(p1,p2):
-            h1=[]
+            i_local = p1.index(vnew)
+            vnew = p2[i_local]
+        def mantener_ciclos(p1, p2, ciclo):
+            h1 = []
             for i in range(len(p1)):
-                vi= p1[i]
+                vi = p1[i]
                 if vi in ciclo:
                     h1.append(vi)
                 else:
-                    vi=p2[i]
-                    h1.append(vi)
+                    h1.append(p2[i])
             return h1
-        h1 = mantener_ciclos(p1,p2)
-        h2 = mantener_ciclos(p2,p1)
+        h1 = mantener_ciclos(p1, p2, ciclo)
+        h2 = mantener_ciclos(p2, p1, ciclo)
         hijo1.append(h1)
         hijo2.append(h2)
-    return h1,h2
+    return hijo1, hijo2
 
     
 
